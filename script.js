@@ -32,3 +32,15 @@ function operate(operator, num1, num2){
     }
     return answer;
 }
+
+const buttons = document.querySelectorAll('button');
+[...buttons].forEach(button => {
+    button.addEventListener('click', () => {
+        displayButton(button.textContent);
+    })
+});
+
+const display = document.getElementById('display');
+function displayButton(btnSymbol){
+    display.value = btnSymbol;
+}
