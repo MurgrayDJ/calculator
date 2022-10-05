@@ -42,5 +42,15 @@ const buttons = document.querySelectorAll('button');
 
 const display = document.getElementById('display');
 function displayButton(btnSymbol){
-    display.value = btnSymbol;
+    //Adds text onto end instead of erasing
+    //display.value = display.value + ' ' + btnSymbol;
+    let currentValue = parseInt(display.value);
+    let nextSymbol = parseInt(btnSymbol);
+
+    if(!isNaN(currentValue) && !isNaN(nextSymbol)){
+        if(currentValue === 0){
+            display.value = '';
+        }
+        display.value = display.value + btnSymbol;
+    }
 }
