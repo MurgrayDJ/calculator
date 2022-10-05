@@ -36,21 +36,28 @@ function operate(operator, num1, num2){
 const buttons = document.querySelectorAll('button');
 [...buttons].forEach(button => {
     button.addEventListener('click', () => {
-        displayButton(button.textContent);
+        changeDisplay(button.textContent);
     })
 });
 
 const display = document.getElementById('display');
-function displayButton(btnSymbol){
-    //Adds text onto end instead of erasing
-    //display.value = display.value + ' ' + btnSymbol;
+function changeDisplay(btnSymbol){
     let currentValue = parseInt(display.value);
     let nextSymbol = parseInt(btnSymbol);
-
+    
+    //If current value is a number and button click is a number
     if(!isNaN(currentValue) && !isNaN(nextSymbol)){
         if(currentValue === 0){
             display.value = '';
         }
         display.value = display.value + btnSymbol;
+    }
+    //If current value is a number and button click is not a number
+    else if(!isNaN(currentValue) && isNaN(nextSymbol)){
+        display.value = btnSymbol;
+    }
+    //If current value is not a number and button click is a number
+    else if(isNaN(currentValue) && !isNaN(nextSymbol)){
+        display.value = btnSymbol;
     }
 }
