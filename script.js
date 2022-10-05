@@ -18,3 +18,17 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
+function operate(operator, num1, num2){
+    let answer;
+    switch (operator) {
+        case '+': answer = add(num1, num2);
+            break;
+        case '-': answer = subtract(num1, num2);
+            break;
+        case '*': answer = multiply(num1, num2);
+            break;
+        case '/': answer = divide(num1, num2);
+            break;
+    }
+    return answer;
+}
