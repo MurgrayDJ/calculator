@@ -44,31 +44,33 @@ let firstValue, secondValue, operator, currentTotal;
 
 const display = document.getElementById('display');
 function changeDisplay(btnSymbol){
-    let currentValue = parseInt(display.value);
+    let prevSymbol = parseInt(display.value);
     let nextSymbol = parseInt(btnSymbol);
     
     //If current value is a number and button click is a number
-    if(!isNaN(currentValue) && !isNaN(nextSymbol)){
+    if(!isNaN(prevSymbol) && !isNaN(nextSymbol)){
         //Restart
-        if(currentValue === 0 || (currentValue !== 0 && currentTotal)){
+        //If starting fresh (calculator value is 0) OR
+        //calculator value is NOT 0 and there is a calculated total already
+        if(prevSymbol === 0 || (prevSymbol !== 0 && currentTotal)){
             display.value = nextSymbol;
             firstValue = parseInt(display.value);
-            secondValue, operator, currentTotal = null;
+            secondValue = operator = currentTotal = null;
         }
-        // else if(currentValue !== 0 && currentTotal){
-
-        // }
         else{
             display.value = display.value + btnSymbol;
             if(secondValue){
                 secondValue = parseInt(display.value);
+            }
+            else{
+                firstValue = parseInt(display.value);
             }
         }
         
         //firstValue = parseInt(display.value);
     }
     //If current value is a number and button click is not a number
-    else if(!isNaN(currentValue) && isNaN(nextSymbol)){
+    else if(!isNaN(prevSymbol) && isNaN(nextSymbol)){
         if(!firstValue && firstValue !== 0){
             firstValue = parseInt(display.value);
         }
@@ -81,7 +83,7 @@ function changeDisplay(btnSymbol){
         //operator = btnSymbol;
     }
     //If current value is not a number and button click is a number
-    else if(isNaN(currentValue) && !isNaN(nextSymbol)){
+    else if(isNaN(prevSymbol) && !isNaN(nextSymbol)){
         operator = display.value;
         display.value = btnSymbol;
         secondValue = parseInt(display.value);
