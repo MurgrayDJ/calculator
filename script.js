@@ -33,60 +33,81 @@ function operate(operator, num1, num2){
     return answer;
 }
 
-const buttons = document.querySelectorAll('button');
-[...buttons].forEach(button => {
-    button.addEventListener('click', () => {
-        changeDisplay(button.textContent);
-    })
-});
-
-let firstValue, secondValue, operator, currentTotal;
+let calculation = {
+    num1: null,
+    num2: null,
+    operator: null,
+    total: null,
+    run: function() {
+        this.total = operate(this.operator, this.num1, this.num2);
+        return this.total;
+    },
+    clear: function(){
+        this.num1 = null;
+        this.num2 = null;
+        this.operator = null;
+        this.total = null;
+    }
+}
 
 const display = document.getElementById('display');
-function changeDisplay(btnSymbol){
-    let prevSymbol = parseInt(display.value);
-    let nextSymbol = parseInt(btnSymbol);
+const buttons = document.querySelectorAll('button');
+[...buttons].forEach(button => {
+    button.addEventListener('click', () => {checkBtnVal(button)})
+});
+
+function checkBtnVal(button){
+    let buttonVal = button.textContent;
+    let buttonIsNum = !isNaN(parseInt(buttonVal));
     
-    //If current value is a number and button click is a number
-    if(!isNaN(prevSymbol) && !isNaN(nextSymbol)){
-        //Restart
-        //If starting fresh (calculator value is 0) OR
-        //calculator value is NOT 0 and there is a calculated total already
-        if(prevSymbol === 0 || (prevSymbol !== 0 && currentTotal)){
-            display.value = nextSymbol;
-            firstValue = parseInt(display.value);
-            secondValue = operator = currentTotal = null;
+    if(buttonIsNum){
+        changeDisplay(parseInt(buttonVal));
+    }
+    else{
+        useOperators(buttonVal);
+    }
+}
+
+function changeDisplay(buttonVal){
+    let displayValue = parseInt(display.value);
+    
+    if(displayValue === 0){
+        display.value = calculation.num1 = buttonVal;
+    }
+    else{
+        if(!calculation.operator){
+            display.value += buttonVal;
+            calculation.num1 = parseInt(display.value);
         }
         else{
-            display.value = display.value + btnSymbol;
-            if(secondValue){
-                secondValue = parseInt(display.value);
+            if(!calculation.num2){
+                display.value = calculation.num2 = buttonVal;
             }
             else{
-                firstValue = parseInt(display.value);
+                display.value += buttonVal;
+                calculation.num2 = parseInt(display.value);
             }
         }
-        
-        //firstValue = parseInt(display.value);
     }
-    //If current value is a number and button click is not a number
-    else if(!isNaN(prevSymbol) && isNaN(nextSymbol)){
-        if(!firstValue && firstValue !== 0){
-            firstValue = parseInt(display.value);
-        }
-        display.value = btnSymbol;
-        
-        if(btnSymbol === "="){
-            display.value = operate(operator, firstValue, secondValue);
-            currentTotal = parseInt(display.value);
-        }
-        //operator = btnSymbol;
-    }
-    //If current value is not a number and button click is a number
-    else if(isNaN(prevSymbol) && !isNaN(nextSymbol)){
-        operator = display.value;
-        display.value = btnSymbol;
-        secondValue = parseInt(display.value);
-        //display.value = operate(operator, firstValue, secondValue);
+}
+
+function useOperators(buttonVal){
+    switch (buttonVal){
+        case "=": display.value = calculation.run();
+            calculation.clear();
+            break;
+        case "CE": calculation.clear();
+            display.value = 0;
+            break;
+        default:
+            if(!calculation.num1){
+                calculation.num1 = parseInt(display.value);
+            }
+            if(calculation.num1 && calculation.num2){
+                display.value = calculation.run();
+                calculation.num1 = parseInt(display.value);
+                calculation.num2 = null;
+            }
+            calculation.operator = buttonVal;
     }
 }
