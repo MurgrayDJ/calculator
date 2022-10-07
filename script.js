@@ -96,7 +96,7 @@ function useOperators(buttonVal){
         case "=": display.value = calculation.run();
             calculation.clear();
             break;
-        case "CE": calculation.clear();
+        case "AC": calculation.clear();
             display.value = 0;
             break;
         default:
