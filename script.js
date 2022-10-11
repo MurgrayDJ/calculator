@@ -2,37 +2,32 @@
 //Date: Started 10/5/2022
 //Purpose: To create a functional calculator
 
-function add(num1, num2){
-    return num1 + num2;
-}
 
-function subtract(num1, num2){
-    return num1 - num2;
-}
+//Program ran by these event listeners
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
+[...buttons].forEach(button => {
+    button.addEventListener('click', () => {checkBtnVal(button)})
+});
 
-function multiply(num1, num2){
-    return num1 * num2;
-}
-
-function divide(num1, num2){
-    return num1 / num2;
-}
-
-function operate(operator, num1, num2){
-    let answer;
-    switch (operator) {
-        case '+': answer = add(num1, num2);
-            break;
-        case '-': answer = subtract(num1, num2);
-            break;
-        case '*': answer = multiply(num1, num2);
-            break;
-        case '/': answer = divide(num1, num2);
-            break;
+//Move through program based on if value is a number or operator
+function checkBtnVal(button){
+    let buttonVal = button.textContent;
+    let buttonIsNum = !isNaN(parseFloat(buttonVal));
+    
+    if(buttonIsNum){
+        changeDisplay(parseFloat(buttonVal));
     }
-    return answer;
+    else{
+        useOperators(buttonVal);
+    }
 }
 
+
+
+
+
+/************* Calculation Object *************/
 let calculation = {
     num1: null,
     num2: null,
@@ -50,25 +45,15 @@ let calculation = {
         //this.total = null;
     }
 }
+/************* Calculation Object -END *************/
 
-const display = document.getElementById('display');
-const buttons = document.querySelectorAll('button');
-[...buttons].forEach(button => {
-    button.addEventListener('click', () => {checkBtnVal(button)})
-});
 
-function checkBtnVal(button){
-    let buttonVal = button.textContent;
-    let buttonIsNum = !isNaN(parseFloat(buttonVal));
-    
-    if(buttonIsNum){
-        changeDisplay(parseFloat(buttonVal));
-    }
-    else{
-        useOperators(buttonVal);
-    }
-}
 
+
+
+
+
+/************* Operand change section *************/
 function changeDisplay(newDigit){
     if(calculation.num1 === null){
         setNum1(newDigit);
@@ -107,6 +92,49 @@ function setNum2(newDigit){
     }
 }
 
+/************* Basic Operations *************/
+function add(num1, num2){
+    return num1 + num2;
+}
+
+function subtract(num1, num2){
+    return num1 - num2;
+}
+
+function multiply(num1, num2){
+    return num1 * num2;
+}
+
+function divide(num1, num2){
+    return num1 / num2;
+}
+
+function operate(operator, num1, num2){
+    let answer;
+    switch (operator) {
+        case '+': answer = add(num1, num2);
+            break;
+        case '-': answer = subtract(num1, num2);
+            break;
+        case '*': answer = multiply(num1, num2);
+            break;
+        case '/': answer = divide(num1, num2);
+            break;
+    }
+    return answer;
+}
+/************* Basic Operations -END *************/
+/************* Operand change section -END *************/
+
+
+
+
+
+
+
+
+
+/******************  Operator section ******************/
 function useOperators(operator){
     switch (operator){
         case "=": useEqualSign();
@@ -118,37 +146,12 @@ function useOperators(operator){
             break;
         case ".": pointOperator();
             break;
-        case "+/-": unaryOperator(operator);
+        case "+/-": unaryOperation(operator);
             break;
-        case "%": unaryOperator(operator);
+        case "%": unaryOperation(operator);
             break;
         default: //Button is +, -, *, or /
-            basicOperators(operator);
-    }
-}
-
-function clearEntry(){
-    if(display.value !== "0" && display.value.length !== 1){
-        display.value = display.value.slice(0, -1)
-        updateOperands();
-    }
-    else if(display.value.length === 1){
-        display.value = '0';
-        updateOperands();
-    }
-}
-
-function updateOperands(){
-    if(!calculation.operator){
-        if(display.value !== "0"){
-            calculation.num1 = parseFloat(display.value);
-        }
-        else{
-            calculation.num1 = null;
-        }
-    }
-    else{
-        calculation.num2 = parseFloat(display.value);
+            basicOperation(operator);
     }
 }
 
@@ -165,12 +168,13 @@ function useEqualSign(){
     calculation.clear();
 }
 
-function unaryOperator(operator){
-    if(display.value !== "0" && display.value !== "0."){
-        
-        if(operator === "%") {display.value /= 100}
-        else if(operator === "+/-") {display.value *= -1};
-
+function clearEntry(){
+    if(display.value !== "0" && display.value.length !== 1){
+        display.value = display.value.slice(0, -1)
+        updateOperands();
+    }
+    else if(display.value.length === 1){
+        display.value = '0';
         updateOperands();
     }
 }
@@ -185,7 +189,18 @@ function pointOperator(){
     }
 }
 
-function basicOperators(operator){
+function unaryOperation(operator){
+    if(display.value !== "0" && display.value !== "0."){
+        
+        if(operator === "%") {display.value /= 100}
+        else if(operator === "+/-") {display.value *= -1};
+
+        updateOperands();
+    }
+}
+
+//Button is +, -, *, or /
+function basicOperation(operator){
     if(!calculation.num1){
         calculation.num1 = parseFloat(display.value);
     }
@@ -196,3 +211,24 @@ function basicOperators(operator){
     }
     calculation.operator = operator;
 }
+
+
+
+
+//Helper function
+//Resets operands to default values or updates them to 
+//current display value
+function updateOperands(){
+    if(!calculation.operator){
+        if(display.value !== "0"){
+            calculation.num1 = parseFloat(display.value);
+        }
+        else{
+            calculation.num1 = null;
+        }
+    }
+    else{
+        calculation.num2 = parseFloat(display.value);
+    }
+}
+/******************  Operator section -END ******************/
