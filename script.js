@@ -116,8 +116,23 @@ function useOperators(operator){
             break;
         case ".": pointOperator();
             break;
+        case "+/-": changeNumSign();
+            break;
         default: //Button is +, -, *, or /
             basicOperators(operator);
+    }
+}
+
+function changeNumSign(){
+    if(display.value !== "0" && display.value !== "0."){
+        display.value *= -1;
+
+        if(!calculation.operator){
+            calculation.num1 = parseFloat(display.value);
+        }
+        else{
+            calculation.num2 = parseFloat(display.value);
+        }
     }
 }
 
