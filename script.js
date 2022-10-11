@@ -37,7 +37,7 @@ let calculation = {
     num1: null,
     num2: null,
     operator: null,
-    total: null,
+    total: 0,
     run: function() {
         this.total = operate(this.operator, this.num1, this.num2);
         return this.total;
@@ -46,7 +46,7 @@ let calculation = {
         this.num1 = null;
         this.num2 = null;
         this.operator = null;
-        this.total = null;
+        //this.total = null;
     }
 }
 
@@ -58,56 +58,87 @@ const buttons = document.querySelectorAll('button');
 
 function checkBtnVal(button){
     let buttonVal = button.textContent;
-    let buttonIsNum = !isNaN(parseInt(buttonVal));
+    let buttonIsNum = !isNaN(parseFloat(buttonVal));
     
     if(buttonIsNum){
-        changeDisplay(parseInt(buttonVal));
+        changeDisplay(parseFloat(buttonVal));
     }
     else{
         useOperators(buttonVal);
     }
 }
 
-function changeDisplay(buttonVal){
-    let displayValue = parseInt(display.value);
-    
-    if(displayValue === 0){
-        display.value = calculation.num1 = buttonVal;
+function changeDisplay(newDigit){
+    if(calculation.num1 === null){
+        setNum1(newDigit);
     }
-    else{
-        if(!calculation.operator){
-            display.value += buttonVal;
-            calculation.num1 = parseInt(display.value);
-        }
-        else{
-            if(!calculation.num2){
-                display.value = calculation.num2 = buttonVal;
-            }
-            else{
-                display.value += buttonVal;
-                calculation.num2 = parseInt(display.value);
-            }
+    else{ //num1 is not null and there is no operator, means entering in multi digit number
+        if(!calculation.operator){ 
+            display.value += newDigit;
+            calculation.num1 = parseFloat(display.value);
+        }else{ //if there's an operator, we're entering in num2
+            setNum2(newDigit);
         }
     }
 }
 
-function useOperators(buttonVal){
-    switch (buttonVal){
+function setNum1(newDigit){
+    if(display.value === "0"
+            || ((display.value !== `0.`)
+            && (display.value !== `${calculation.total}.`))){
+            
+            display.value = calculation.num1 = newDigit;
+        }
+    else{
+        display.value += newDigit;
+        calculation.num1 = parseFloat(display.value);
+    }
+}
+
+function setNum2(newDigit){
+    if(display.value !== "0." && calculation.num2 === null){ //Second value is assigned to a previous calculation
+        display.value = calculation.num2 = newDigit;
+    }
+    else{
+        display.value += newDigit;
+        calculation.num2 = parseFloat(display.value);
+    }
+}
+
+function useOperators(operator){
+    switch (operator){
+        //Need to edit for case where only display / num1 exists
         case "=": display.value = calculation.run();
             calculation.clear();
             break;
         case "AC": calculation.clear();
             display.value = 0;
             break;
-        default:
-            if(!calculation.num1){
-                calculation.num1 = parseInt(display.value);
-            }
-            if(calculation.num1 && calculation.num2){
-                display.value = calculation.run();
-                calculation.num1 = parseInt(display.value);
-                calculation.num2 = null;
-            }
-            calculation.operator = buttonVal;
+        case ".": pointOperator();
+            break;
+        default: //Button is +, -, *, or /
+            basicOperators(operator);
     }
+}
+
+function pointOperator(){
+    //If user presses "." without a 0 first
+    if(calculation.num1 && calculation.operator && !calculation.num2){
+        display.value = "0.";
+    }
+    else if(!display.value.includes(".")){
+        display.value += ".";
+    }
+}
+
+function basicOperators(operator){
+    if(!calculation.num1){
+        calculation.num1 = parseFloat(display.value);
+    }
+    if(calculation.num1 && calculation.num2){
+        display.value = calculation.run();
+        calculation.num1 = parseFloat(display.value);
+        calculation.num2 = null;
+    }
+    calculation.operator = operator;
 }
