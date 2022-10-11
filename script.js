@@ -85,10 +85,10 @@ function changeDisplay(newDigit){
 
 function setNum1(newDigit){
     if(display.value === "0"
-            || (display.value !== `0.` && display.value !== `${calculation.total}.`)){
+        || (display.value !== `0.` && display.value !== `${calculation.total}.`)){
             
-            display.value = calculation.num1 = newDigit;
-        }
+        display.value = calculation.num1 = newDigit;
+    }
     else{
         display.value += newDigit;
         calculation.num1 = parseFloat(display.value);
@@ -114,6 +114,8 @@ function useOperators(operator){
         case "AC": calculation.clear();
             display.value = 0;
             break;
+        case "CE": clearEntry();
+            break;
         case ".": pointOperator();
             break;
         case "+/-": unaryOperator(operator);
@@ -122,6 +124,31 @@ function useOperators(operator){
             break;
         default: //Button is +, -, *, or /
             basicOperators(operator);
+    }
+}
+
+function clearEntry(){
+    if(display.value !== "0" && display.value.length !== 1){
+        display.value = display.value.slice(0, -1)
+        updateOperands();
+    }
+    else if(display.value.length === 1){
+        display.value = '0';
+        updateOperands();
+    }
+}
+
+function updateOperands(){
+    if(!calculation.operator){
+        if(display.value !== "0"){
+            calculation.num1 = parseFloat(display.value);
+        }
+        else{
+            calculation.num1 = null;
+        }
+    }
+    else{
+        calculation.num2 = parseFloat(display.value);
     }
 }
 
@@ -144,12 +171,7 @@ function unaryOperator(operator){
         if(operator === "%") {display.value /= 100}
         else if(operator === "+/-") {display.value *= -1};
 
-        if(!calculation.operator){
-            calculation.num1 = parseFloat(display.value);
-        }
-        else{
-            calculation.num2 = parseFloat(display.value);
-        }
+        updateOperands();
     }
 }
 
