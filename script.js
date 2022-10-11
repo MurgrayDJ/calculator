@@ -116,9 +116,9 @@ function useOperators(operator){
             break;
         case ".": pointOperator();
             break;
-        case "+/-": negateSign();
+        case "+/-": unaryOperator(operator);
             break;
-        case "%": percentOperator();
+        case "%": unaryOperator(operator);
             break;
         default: //Button is +, -, *, or /
             basicOperators(operator);
@@ -138,22 +138,11 @@ function useEqualSign(){
     calculation.clear();
 }
 
-function negateSign(){
+function unaryOperator(operator){
     if(display.value !== "0" && display.value !== "0."){
-        display.value *= -1;
-
-        if(!calculation.operator){
-            calculation.num1 = parseFloat(display.value);
-        }
-        else{
-            calculation.num2 = parseFloat(display.value);
-        }
-    }
-}
-
-function percentOperator(){
-    if(display.value !== "0" && display.value !== "0."){
-        display.value /= 100;
+        
+        if(operator === "%") {display.value /= 100}
+        else if(operator === "+/-") {display.value *= -1};
 
         if(!calculation.operator){
             calculation.num1 = parseFloat(display.value);
