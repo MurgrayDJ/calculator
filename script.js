@@ -85,8 +85,8 @@ function changeDisplay(newDigit){
 
 function setNum1(newDigit){
     if(display.value === "0"
-            || ((display.value !== `0.`)
-            && (display.value !== `${calculation.total}.`))){
+            || (display.value !== `0.`
+            && display.value !== `${calculation.total}.`)){
             
             display.value = calculation.num1 = newDigit;
         }
@@ -97,7 +97,10 @@ function setNum1(newDigit){
 }
 
 function setNum2(newDigit){
-    if(display.value !== "0." && calculation.num2 === null){ //Second value is assigned to a previous calculation
+    if(display.value === "0" 
+        || (display.value !== "0." 
+        && calculation.num2 === null)){ //Second value is assigned to a previous calculation
+        
         display.value = calculation.num2 = newDigit;
     }
     else{
@@ -109,8 +112,7 @@ function setNum2(newDigit){
 function useOperators(operator){
     switch (operator){
         //Need to edit for case where only display / num1 exists
-        case "=": display.value = calculation.run();
-            calculation.clear();
+        case "=": useEqualSign();
             break;
         case "AC": calculation.clear();
             display.value = 0;
@@ -122,6 +124,20 @@ function useOperators(operator){
         default: //Button is +, -, *, or /
             basicOperators(operator);
     }
+}
+
+function useEqualSign(){
+    if(calculation.operator === "/" && calculation.num2 === 0){
+        display.value = calculation.total = ">:(";
+    }
+    else if(calculation.num1 !== null && calculation.num2 === null){
+        display.value = calculation.total = calculation.num1;
+    }
+    else{
+        display.value = calculation.run();
+        calculation.clear();
+    }
+    
 }
 
 function changeNumSign(){
