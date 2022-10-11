@@ -40,6 +40,7 @@ let calculation = {
     total: 0,
     run: function() {
         this.total = operate(this.operator, this.num1, this.num2);
+        this.total = +this.total.toFixed(5);
         return this.total;
     },
     clear: function(){
