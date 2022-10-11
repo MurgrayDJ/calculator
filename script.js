@@ -85,8 +85,7 @@ function changeDisplay(newDigit){
 
 function setNum1(newDigit){
     if(display.value === "0"
-            || (display.value !== `0.`
-            && display.value !== `${calculation.total}.`)){
+            || (display.value !== `0.` && display.value !== `${calculation.total}.`)){
             
             display.value = calculation.num1 = newDigit;
         }
@@ -98,8 +97,7 @@ function setNum1(newDigit){
 
 function setNum2(newDigit){
     if(display.value === "0" 
-        || (display.value !== "0." 
-        && calculation.num2 === null)){ //Second value is assigned to a previous calculation
+        || (display.value !== "0." && calculation.num2 === null)){ 
         
         display.value = calculation.num2 = newDigit;
     }
@@ -111,7 +109,6 @@ function setNum2(newDigit){
 
 function useOperators(operator){
     switch (operator){
-        //Need to edit for case where only display / num1 exists
         case "=": useEqualSign();
             break;
         case "AC": calculation.clear();
@@ -119,7 +116,9 @@ function useOperators(operator){
             break;
         case ".": pointOperator();
             break;
-        case "+/-": changeNumSign();
+        case "+/-": negateSign();
+            break;
+        case "%": percentOperator();
             break;
         default: //Button is +, -, *, or /
             basicOperators(operator);
@@ -135,14 +134,26 @@ function useEqualSign(){
     }
     else{
         display.value = calculation.run();
-        calculation.clear();
     }
-    
+    calculation.clear();
 }
 
-function changeNumSign(){
+function negateSign(){
     if(display.value !== "0" && display.value !== "0."){
         display.value *= -1;
+
+        if(!calculation.operator){
+            calculation.num1 = parseFloat(display.value);
+        }
+        else{
+            calculation.num2 = parseFloat(display.value);
+        }
+    }
+}
+
+function percentOperator(){
+    if(display.value !== "0" && display.value !== "0."){
+        display.value /= 100;
 
         if(!calculation.operator){
             calculation.num1 = parseFloat(display.value);
