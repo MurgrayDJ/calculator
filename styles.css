@@ -13,19 +13,32 @@ body{
 #calculator-body{
     border: solid white;
     border-width: thin;
-    border-radius: 10%;
+    border-radius: 5%;
     padding: 10px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+#row-5{
+    margin-bottom: 0px;
+}
+
+.row{
+    margin-bottom: 5px;
+}
 
 button{
-    height: 30px;
-    width: 30px;
+    height: 70px;
+    width: 70px;
+    border-style: none;
+    border-radius: 5%;
+    margin: 1px;
 }
 
 #display{
     text-align: right;
+    border-style: none;
+    border-radius: 5%;
+    margin-bottom: 10px;
 }
