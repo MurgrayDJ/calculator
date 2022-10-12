@@ -1,4 +1,4 @@
-                        #Cal-cute-lator
+                        # Cal-cute-lator #
 This is a simple calculator. Here is a list of it's current features:
 - Basic operations: +, -, *, /
 - Unary operations:
