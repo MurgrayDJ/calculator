@@ -2,6 +2,12 @@ html, body {
     height: 100%;
 }
 
+h1{
+    font-family: "Arial", "Georgia", "monospace";
+    color:rgb(252, 213, 219);
+    font-size: 53px;
+}
+
 body{
     display: flex;
     flex-direction: column;
@@ -20,8 +26,27 @@ body{
     flex-direction: column;
     align-items: center;
 }
-#row-5{
-    margin-bottom: 0px;
+
+#display-section{
+    width: 100%;
+}
+
+#display{
+    text-align: right;
+    font-size: 40px;
+    border: solid;
+    border-color: gray;
+    border-width: 5px 5px 1px 1px;
+    border-radius: 10px;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    width: 300px;
+    height: 50px;
+    background-color: rgb(252, 213, 219);
+}
+
+#display:focus{
+    outline: none;
 }
 
 .row{
@@ -29,13 +54,8 @@ body{
     display: flex;
 }
 
-.background{
-    color:white;
-    height: 80px;
-    width: 80px;
-}
-.operator{
-    background-color: rgb(231, 114, 133);
+#row-5{
+    margin-bottom: 0px;
 }
 
 button{
@@ -53,33 +73,15 @@ button:hover{
 }
 
 button:active {
-    /* background-color: rgb(252, 213, 219); */
     transform: translate(-1%,1%);
     border-color: rgb(252, 213, 219)rgb(252, 213, 219) lightgray lightgray;
     border-width: 1px 1px 2px 2px; 
 } 
 
-#display{
-    text-align: right;
-    font-size: 40px;
-    border: solid;
-    border-color: gray;
-    border-width: 5px 5px 1px 1px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 290px;
-    height: 50px;
-    background-color: rgb(252, 213, 219);
-}
-
-#display:focus{
-    outline: none;
-}
-
-#display-section{
-    width: 100%;
-}
-
 .number{
     background-color: rgb(241, 135, 153);
+}
+
+.operator{
+    background-color: rgb(231, 114, 133);
 }
