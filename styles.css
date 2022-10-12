@@ -85,3 +85,13 @@ button:active {
 .operator{
     background-color: rgb(231, 114, 133);
 }
+
+footer {
+	position: absolute;
+	width: 100%;
+    color: rgb(252, 213, 219);
+    line-height: 40px;
+    font-size: 15px;
+	text-align: center;
+	bottom:0;
+}
