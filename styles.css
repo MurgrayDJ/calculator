@@ -12,7 +12,7 @@ body{
 
 #calculator-body{
     border: solid white;
-    border-width: thin;
+    border-width: 2px 2px 5px 5px; 
     border-radius: 5%;
     padding: 10px;
 
@@ -26,24 +26,50 @@ body{
 
 .row{
     margin-bottom: 0px;
+    display: flex;
+}
+
+.background{
+    color:white;
+    height: 80px;
+    width: 80px;
+}
+.operator{
+    background-color: rgb(231, 114, 133);
 }
 
 button{
     height: 70px;
     width: 70px;
-    border-style: none;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px 1px 3px 3px; 
     border-radius: 10%;
-    margin: 2px 0px;
+    margin: 4px 4px;
 }
+
+button:hover{
+    background-color: rgb(252, 213, 219);
+}
+
+button:active {
+    /* background-color: rgb(252, 213, 219); */
+    transform: translate(-1%,1%);
+    border-color: rgb(252, 213, 219)rgb(252, 213, 219) lightgray lightgray;
+    border-width: 1px 1px 2px 2px; 
+} 
 
 #display{
     text-align: right;
     font-size: 40px;
-    border-style: none;
+    border: solid;
+    border-color: gray;
+    border-width: 5px 5px 1px 1px;
     border-radius: 10px;
     margin-bottom: 10px;
     width: 290px;
     height: 50px;
+    background-color: rgb(252, 213, 219);
 }
 
 #display:focus{
@@ -52,4 +78,8 @@ button{
 
 #display-section{
     width: 100%;
+}
+
+.number{
+    background-color: rgb(241, 135, 153);
 }
