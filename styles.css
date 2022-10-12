@@ -25,20 +25,31 @@ body{
 }
 
 .row{
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 button{
     height: 70px;
     width: 70px;
     border-style: none;
-    border-radius: 5%;
-    margin: 1px;
+    border-radius: 10%;
+    margin: 2px 0px;
 }
 
 #display{
     text-align: right;
+    font-size: 40px;
     border-style: none;
-    border-radius: 5%;
+    border-radius: 10px;
     margin-bottom: 10px;
+    width: 290px;
+    height: 50px;
+}
+
+#display:focus{
+    outline: none;
+}
+
+#display-section{
+    width: 100%;
 }
